@@ -1,8 +1,12 @@
 venv/
 .venv/
 __pycache__/
+*.pyc
+
 Logs/
 Outputs/
 VectorStore/
+
 *.db
+*.sqlite
 *.sqlite3
