@@ -1,0 +1,17 @@
+langgraph
+langchain
+langchain-c
+langchain-openai
+tavily-python
+chromadb
+fastapi
+uvicorn
+streamlit
+trafilatura
+pydantic
+sqlalchemy
+dotenv
+langchain-huggingface
+langchain-community
+langchain-google-genai
+google-generativeai
