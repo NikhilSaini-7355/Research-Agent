@@ -2,8 +2,6 @@ from LLM.groq_client import llm
 from Prompts.TopicAnalysisPrompt import generate_topic_analysis_prompt
 from Schemas.TopicAnalysisSchema import TopicAnalysisSchema
 
-
-
 class TopicAnalyzerAgent:
 
     def analyze(self, topic: str):
@@ -14,4 +12,6 @@ class TopicAnalyzerAgent:
 
         result = structured_llm.invoke(prompt)
 
-        return result
+        # print(result)
+        
+        return result.model_dump()
