@@ -3,7 +3,7 @@ from src.logger import logging
 import sys 
 import json
 
-from Agents.persona_generator import persona_generator
+from src.agents.persona_generator import persona_generator
 
 Topic =  "India vs China economic comparison"
 

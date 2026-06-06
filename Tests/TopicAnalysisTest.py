@@ -11,7 +11,7 @@ from src.logger import logging
 
 
 try:
-    from Agents.TopicAnalyzerAgent import TopicAnalyzerAgent
+    from src.agents.TopicAnalyzerAgent import TopicAnalyzerAgent
 
     TopicAnalyzerObj = TopicAnalyzerAgent()
     
