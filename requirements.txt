@@ -13,5 +13,6 @@ sqlalchemy
 dotenv
 langchain-huggingface
 langchain-community
+langchain-groq
 langchain-google-genai
 google-generativeai
