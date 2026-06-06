@@ -3,7 +3,7 @@ import json
 
 class persona_generator:
 
-    def generate_persona(self,Topic, subtopic):
+    def generate_persona(self,Topic:str, subtopic:list[str]):
 
         prompt = f"""
             Topic: {Topic}
@@ -31,7 +31,7 @@ class persona_generator:
                 "perspective": "Focuses on manufacturing, exports, and industrial policy."
             }}
             ]
-            
+            You must respond ONLY with raw, valid JSON. Do not include markdown formatting, backticks, or conversational text. Start your response directly with the JSON array. Ensure the JSON is properly formatted and can be parsed without errors.
             Requirements:
             - Roles must be professional expert roles, not specific real people.
             - Each role should represent a unique perspective.
