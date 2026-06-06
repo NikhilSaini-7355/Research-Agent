@@ -13,4 +13,4 @@ class persona_generator:
 
         result = structured_llm.invoke(prompt)
 
-        return result.model_dump()
+        return result

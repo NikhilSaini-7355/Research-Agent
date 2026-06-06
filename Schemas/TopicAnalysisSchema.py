@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import  TypedDict, Annotated, Optional, Literal, List
+from typing import  Literal, List
 
 class TopicAnalysisSchema(BaseModel):
     topic: str = Field(description="Write down the Exact Topic")
