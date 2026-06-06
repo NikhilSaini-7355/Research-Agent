@@ -26,8 +26,8 @@ class SearchResponse(BaseModel):
         ..., 
         description="The original search query that was executed."
     )
-    results: List[SearchResult] = Field(
-        default_factory=list, 
+    results: List[SearchResult] = Field( #type: ignore
+        default_factory=list,
         description="A list containing the individual search results."
     )
     response_time: Optional[float] = Field(
