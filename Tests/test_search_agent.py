@@ -2,7 +2,7 @@ from src.agents.search_agent import web_searcher
 from src.exception import CustomException
 from src.logger import logging
 
-import os
+
 import sys
 
 
