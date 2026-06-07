@@ -3,8 +3,7 @@ langchain
 langchain-openai
 langchain-groq
 langchain-core
-
-
+langchain-text-splitters
 openai
 
 tavily-python

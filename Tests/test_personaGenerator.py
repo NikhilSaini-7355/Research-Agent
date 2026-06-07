@@ -20,7 +20,9 @@ try:
     generator = persona_generator()
     personas = generator.generate_persona(Topic, subtopics)
     logging.info("Persona generation completed successfully.")
+    personas = personas.model_dump()  # Convert to dictionary if it's a Pydantic model
     print(json.dumps(personas, indent=2))
+    
 
 
 except Exception as e:
