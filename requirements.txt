@@ -7,6 +7,7 @@ langchain-text-splitters
 openai
 
 tavily-python
+asyncio
 
 chromadb
 
@@ -16,6 +17,7 @@ uvicorn
 streamlit
 
 trafilatura
+lxml_html_clean
 beautifulsoup4
 requests
 
