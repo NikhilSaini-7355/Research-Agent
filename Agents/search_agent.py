@@ -12,7 +12,7 @@ import psycopg2
 from psycopg2.extras import execute_values
 import chromadb
 from datetime import datetime
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_text_splitters import MarkdownTextSplitter
 import sys
 
 load_dotenv()
@@ -22,7 +22,7 @@ neon_db_url = os.getenv("NEON_DATABASE_URL")
 
 # Initialize Vector DB (Chroma)
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="research_articles")
+collection = chroma_client.get_or_create_collection(name="new_articles")
 
 client = TavilyClient(
     api_key=os.getenv("TAVILY_API_KEY")
@@ -102,8 +102,14 @@ class web_searcher:
                 if not unprocessed_articles:
                     print("No new articles to process into ChromaDB.")
                     return
+                
+                # headers_to_split_on = [
+                #     ("#", "Header_1"),
+                #     ("##", "Header_2"),
+                #     ("###", "Header_3"),
+                # ]
 
-                text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+                text_splitter = MarkdownTextSplitter(chunk_size=500, chunk_overlap=50)
 
                 for article in unprocessed_articles:
                     db_id, url, title, content = article

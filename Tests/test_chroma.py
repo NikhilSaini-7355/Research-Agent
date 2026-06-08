@@ -1,12 +1,12 @@
 import chromadb
 
 client = chromadb.PersistentClient(path="./chroma_db")
-collection = client.get_collection(name="research_articles")
+collection = client.get_or_create_collection(name="new_articles")
 
 # Query the database
 results = collection.query(
-    query_texts=["How is USA building AI?"],
-    n_results=3 # Number of top matching chunks you want to retrieve
+    query_texts=["who won bengal elections 2026? Explain in detail"],
+    n_results=10 # Number of top matching chunks you want to retrieve
 )
 
 # Print the retrieved content

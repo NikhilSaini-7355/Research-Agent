@@ -13,7 +13,7 @@ import sys
 
 
 try:
-    query = "AI in USA"
+    query = "Bengal Elections 2026"
     max_results = 5
     searcher = web_searcher()
     print("Searching the web...")
