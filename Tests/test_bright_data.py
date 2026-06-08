@@ -13,6 +13,7 @@ firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
 import sys
 
 def clean_markdown(markdown: str) -> str:
+    
     """
     Remove common RAG-unfriendly noise.
     """
