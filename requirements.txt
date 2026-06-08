@@ -9,6 +9,8 @@ openai
 tavily-python
 asyncio
 
+psycopg2-binary
+
 chromadb
 
 fastapi
