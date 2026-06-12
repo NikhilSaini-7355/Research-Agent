@@ -29,7 +29,7 @@ class web_searcher:
 
     def save_to_chromadb(self, results):
         firecrawl = Firecrawl(api_key=firecrawl_api_key)
-        i=0;
+        i=0
         for result in results:
             i+=1
             # Scrape a website:
@@ -38,7 +38,7 @@ class web_searcher:
                 only_main_content=True,)
 
             os.makedirs("output", exist_ok=True)
-            article_id = str(result.url).rstrip('/').split('/')[-1]
+            #article_id = str(result.url).rstrip('/').split('/')[-1]
             with open(f"output/{i}.md", "w", encoding="utf-8") as f:
                 f.write(clean_markdown(doc.markdown))
 
