@@ -3,31 +3,45 @@ from src.logger import logging
 import sys 
 import json
 
+from Agents.persona_generator import PersonaGenerator
 from Agents.question_generator_agent import question_generator_agent
-from Agents.persona_generator import persona_generator
+from Agents.questions_dedup_agent import QuestionDeduplicator
+from Agents.TopicAnalyzerAgent import TopicAnalyzerAgent
 
-Topic =  "India vs China economic comparison"
+TopicAnalyzerObj = TopicAnalyzerAgent()
 
-subtopics = [
-    "GDP Comparison",
-    "Trade Relations",
-    "Investment Climate",
-    "Poverty Alleviation",
-    "Infrastructure Development",
-    "Economic Reforms"
-  ]
+topic =  "Explain Model Predictive Control"
+
+analysis_response = TopicAnalyzerObj.analyze(topic)
 
 try:
-    generator = persona_generator()
-    personas = generator.generate_persona(Topic, subtopics)
+    generator = PersonaGenerator()
+    personas = generator.generate_persona(analysis_response)
+    expert = personas.experts[0]
 
-    expert1 = personas.expert_1
     generator = question_generator_agent()
-    questions = generator.generate_questions(Topic="AI in Healthcare ", role=expert1.role, perspective=expert1.perspective)
-    
-    logging.info("Question generation completed successfully.")
-    print(json.dumps(questions, indent=2))
+    all_questions = []
 
+    for expert in personas.experts:
+
+        questions = generator.generate_questions(
+            topic=topic,
+            expert=expert
+        )
+    
+        all_questions.extend(
+            questions.questions
+        )
+    deduper = QuestionDeduplicator()
+
+    refined_questions = deduper.deduplicate(
+        topic,
+        all_questions
+    )
+    print(len(refined_questions.questions))
+    for question in refined_questions.questions:
+        print(question)
+        print( " " * 50)
 except Exception as e:
-    logging.error("An error occurred while generating questions.")
+    logging.error("An error occurred while generating personas.")
     print(CustomException(e, sys))
