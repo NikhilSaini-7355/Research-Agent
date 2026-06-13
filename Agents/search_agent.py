@@ -18,13 +18,13 @@ client = TavilyClient(
 )
 
 class web_searcher:
-    def search_web(self, query: str, max_results: int = 1):
+    def search_web(self, query: str, max_results: int = 5):
         response = client.search(
             query=query,
             max_results=max_results,
-            include_raw_content=True
+            include_raw_content=False
         )
-        validated_response: SearchResponse = SearchResponse(**response)
+        validated_response = SearchResponse(**response)
         return validated_response.results
 
     def save_to_chromadb(self, results):

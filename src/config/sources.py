@@ -1,15 +1,19 @@
 CONTROL_SOURCES = {
     "control_theory": [
-        "ieeecss.org",
-        "ifac-control.org",
-        "arxiv.org"
+    "ieeecss.org",
+    "ifac-control.org",
+    "arxiv.org",
+    "ieeexplore.ieee.org",
+    "sciencedirect.com",
+    "springer.com"
     ],
 
     "process_control": [
-        "isa.org",
-        "controleng.com",
-        "emerson.com",
-        "yokogawa.com"
+    "isa.org",
+    "controleng.com",
+    "controlglobal.com",
+    "emerson.com",
+    "yokogawa.com"
     ],
 
     "automation": [

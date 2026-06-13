@@ -7,14 +7,11 @@ class SearchResult(BaseModel):
         ..., 
         description="The headline or title of the web page/article."
     )
-    url: HttpUrl = Field(
+    url: str = Field(
         ..., 
         description="The valid URL link to the source."
     )
-    content: str = Field(
-        ..., 
-        description="The extracted text, summary, or snippet from the page."
-    )
+    
     raw_content: Optional[str] = Field(
         default=None,
         description="The raw HTML content of the page fetched by Tavily. Passed to Trafilatura for markdown extraction."
