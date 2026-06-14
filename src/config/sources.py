@@ -42,3 +42,22 @@ CONTROL_SOURCES = {
         "controleng.com"
     ]
 }
+
+allowed_domains = [
+    "ieeecss.org",
+    "ifac-control.org",
+    "arxiv.org",
+    "ieeexplore.ieee.org",
+    "sciencedirect.com",
+    "springer.com",
+    "isa.org",
+    "controlglobal.com",
+    "se.com",
+    "isa.org",
+    "emerson.com",
+    "yokogawa.com",
+    "abb.com",
+    "siemens.com",
+    "ieeecss.org",
+    "controleng.com"  
+]

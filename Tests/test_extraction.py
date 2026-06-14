@@ -3,6 +3,7 @@ import re
 import sys
 import json
 
+from Agents.extractor_agent import ContentExtractor
 from Agents.search_agent import web_searcher
 from Agents.search_query_generator import SearchQueryGenerator
 from Agents.persona_generator import PersonaGenerator
@@ -82,18 +83,12 @@ try:
         except Exception as e:
             print(f"Search failed for query: {query}")
             print(e)
-    HIGH_SCORE_THRESHOLD = 0.80
+    HIGH_SCORE_THRESHOLD = 0.75
 
     filtered_results = []
 
     for result in all_results:
 
-        url = str(result.url)
-
-        is_allowed_domain = any(
-            domain in url
-            for domain in allowed_domains
-        )
 
         score = getattr(result, "score", 0.0)
 
@@ -102,16 +97,16 @@ try:
             and score >= HIGH_SCORE_THRESHOLD
         )
 
-        if is_allowed_domain or is_high_score:
+        if is_high_score:
             filtered_results.append(result)
     print(f"Original URLs: {len(all_results)}")
     print(f"Filtered URLs: {len(filtered_results)}")
 
-    for result in filtered_results:
-        print("-" * 80)
-        print(f"Title : {result.title}")
-        print(f"Score : {result.score}")
-        print(f"URL   : {result.url}")
+    print(f"Extracting the contents...")
+    extractor = ContentExtractor()
+    extractor.extract_content(filtered_results)
+    print(f"extraction  is completed.")
+    
 except Exception as e:
     logging.error(f"An error occurred while searching the web: {str(e)}")
     raise CustomException(e, sys)
