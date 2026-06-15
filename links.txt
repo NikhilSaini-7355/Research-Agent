@@ -1,0 +1,153 @@
+Filtered URLs: 38
+--------------------------------------------------------------------------------
+Title : Model Predictive Control: From Foundations to Advanced Topics
+Score : 0.910998
+URL   : https://researchonline.gcu.ac.uk/en/publications/model-predictive-control-from-foundations-to-advanced-topics
+--------------------------------------------------------------------------------
+Title : Developing advanced predictive modeling techniques for optimizing ...
+Score : 0.8066246
+URL   : https://www.researchgate.net/publication/386505497_Developing_advanced_predictive_modeling_techniques_for_optimizing_business_operations_and_reducing_costs
+--------------------------------------------------------------------------------
+Title : What Are the 3 Most-Used Predictive Modeling Techniques?
+Score : 0.80442166
+URL   : https://ads.life360.com/newsroom/what-are-the-3-most-used-predictive-modeling-techniques
+--------------------------------------------------------------------------------
+Title : Optimization of the model predictive control meta-parameters ...
+Score : 0.87218446
+URL   : https://www.sciencedirect.com/science/article/pii/S0952197623003950
+--------------------------------------------------------------------------------
+Title : What Is Model Predictive Control? - MATLAB & Simulink - MathWorks
+Score : 0.80405265
+URL   : https://www.mathworks.com/help/mpc/gs/what-is-mpc.html
+--------------------------------------------------------------------------------
+Title : [PDF] Learning to Optimize in Model Predictive Control - arXiv
+Score : 0.77589405
+URL   : https://arxiv.org/pdf/2212.02603
+--------------------------------------------------------------------------------
+Title : Basics of model predictive control — do-mpc 5.1.1 documentation
+Score : 0.84707206
+URL   : https://www.do-mpc.com/en/latest/theory_mpc.html
+--------------------------------------------------------------------------------
+Title : Model predictive control - Wikipedia
+Score : 0.82186085
+URL   : https://en.wikipedia.org/wiki/Model_predictive_control
+--------------------------------------------------------------------------------
+Title : [PDF] Numerical Methods for Model Predictive Control - Ian McInerney
+Score : 0.9183121
+URL   : https://ism.engineer/content/papers/2022_PhD-Thesis.pdf
+--------------------------------------------------------------------------------
+Title : [PDF] Efficient Numerical Methods for Nonlinear MPC and Moving Horizon ...
+Score : 0.82186085
+URL   : https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/DiehlFerreauHaverbeke_mpc-overview.pdf
+--------------------------------------------------------------------------------
+Title : Efficient Numerical Methods for Nonlinear MPC and Moving Horizon ...
+Score : 0.8036831
+URL   : https://link.springer.com/chapter/10.1007/978-3-642-01094-1_32
+--------------------------------------------------------------------------------
+Title : Quadratic MPC · DyadControlSystems - JuliaHub
+Score : 0.8565368
+URL   : https://help.juliahub.com/dyad/DyadControlSystems.jl/stable/quadratic_mpc
+--------------------------------------------------------------------------------
+Title : Multi-objective model predictive control with gradient eigenvector ...
+Score : 0.7031221
+URL   : https://www.sciencedirect.com/science/article/abs/pii/S0020025522003553
+--------------------------------------------------------------------------------
+Title : Implementation and Challenges in DCS - Just Measure it
+Score : 0.9041187
+URL   : https://zeroinstrument.com/model-predictive-control-vs-complex-control-implementation-and-challenges-in-dcs
+--------------------------------------------------------------------------------
+Title : Model Predictive Control - MPC technology from ABB
+Score : 0.88444936
+URL   : https://new.abb.com/industrial-software/features/model-predictive-control-mpc
+--------------------------------------------------------------------------------
+Title : Challenges in Model Predictive Control | PDF - Scribd
+Score : 0.8745175
+URL   : https://www.scribd.com/document/525611684/1-s2-0-S0967066111002528-main
+--------------------------------------------------------------------------------
+Title : Overcoming Challenges In Process Control Implementation | PiControl Solutions LLC
+Score : 0.8377398
+URL   : https://www.picontrolsolutions.com/blog/overcoming-challenges-in-process-control-implementation
+--------------------------------------------------------------------------------
+Title : [PDF] Practical Guidelines for Tuning Model-Based Predictive Controllers ...
+Score : 0.8849276
+URL   : https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=3626&context=icec
+--------------------------------------------------------------------------------
+Title : [PDF] Tuning Guidelines for Model-Predictive Control
+Score : 0.8719229
+URL   : https://par.nsf.gov/servlets/purl/10299968
+--------------------------------------------------------------------------------
+Title : Practical approach to tuning MPC
+Score : 0.83452857
+URL   : https://www.sciencedirect.com/science/article/abs/pii/S0019057807601219
+--------------------------------------------------------------------------------
+Title : (PDF) Model predictive control design for industrial applications
+Score : 0.8849276
+URL   : https://www.academia.edu/116181664/Model_predictive_control_design_for_industrial_applications
+--------------------------------------------------------------------------------
+Title : Industrial MPC of Continuous Processes | Springer Nature Link
+Score : 0.7482976
+URL   : https://link.springer.com/rwe/10.1007/978-1-4471-5102-9_242-1
+--------------------------------------------------------------------------------
+Title : Robust Model Predictive Control | Springer Nature Link
+Score : 0.85624856
+URL   : https://link.springer.com/rwe/10.1007/978-3-030-44184-5_2
+--------------------------------------------------------------------------------
+Title : Robust Model Predictive Control: Implementation Issues with ...
+Score : 0.8190992
+URL   : https://www.sciencedirect.com/science/article/pii/S2405896318328477
+--------------------------------------------------------------------------------
+Title : Model Predictive Control - MPC technology from ABB
+Score : 0.75464433
+URL   : https://new.abb.com/industrial-software/features/model-predictive-control-mpc
+--------------------------------------------------------------------------------
+Title : On the Standard Performance Criteria for Applied Control Design: PID, MPC or Machine Learning Controller?
+Score : 0.680136
+URL   : https://arxiv.org/html/2503.14379v1
+--------------------------------------------------------------------------------
+Title : Predictive Control Model - an overview | ScienceDirect Topics
+Score : 0.5052006
+URL   : https://www.sciencedirect.com/topics/materials-science/predictive-control-model
+--------------------------------------------------------------------------------
+Title : [PDF] BrainWave®: Model Predictive Control for the Process Industries
+Score : 0.89053273
+URL   : https://www.andritz.com/resource/blob/15102/cb1881abbfb17573ecb6f60c28e04b9a/aa-intech-brainwave-model-predictive-control-for-the-process-industries-data.pdf
+--------------------------------------------------------------------------------
+Title : [PDF] A survey of industrial model predictive control technology - CEPAC
+Score : 0.84918517
+URL   : https://cepac.cheme.cmu.edu/pasilectures/darciodolak/Review_article_2.pdf
+--------------------------------------------------------------------------------
+Title : Model Predictive Control - MPC technology from ABB
+Score : 0.82728493
+URL   : https://new.abb.com/industrial-software/features/model-predictive-control-mpc
+--------------------------------------------------------------------------------
+Title : Model Predictive Control for Smart Buildings: Applications and ...
+Score : 0.8095324
+URL   : https://www.mdpi.com/2075-5309/15/18/3298
+--------------------------------------------------------------------------------
+Title : A Learning-Based Model Predictive Control Strategy for Home ...
+Score : 0.7040996
+URL   : https://ieeexplore.ieee.org/iel7/6287639/10005208/10371281.pdf
+--------------------------------------------------------------------------------
+Title : Sustainable building's energy management with artificial ...
+Score : 0.6504012
+URL   : https://www.sciencedirect.com/science/article/pii/S235248472600051X
+--------------------------------------------------------------------------------
+Title : Scalable, reconfigurable Model Predictive Control for building ...
+Score : 0.71040785
+URL   : https://ieeexplore.ieee.org/document/7330873
+--------------------------------------------------------------------------------
+Title : Optimising complex systems: model predictive control in ...
+Score : 0.60610276
+URL   : https://link.springer.com/article/10.1186/s44147-026-00969-w
+--------------------------------------------------------------------------------
+Title : An adaptive model predictive control approach for robust load frequency control under renewable energy disturbances | Scientific Reports
+Score : 0.8820324
+URL   : https://www.nature.com/articles/s41598-025-33986-5
+--------------------------------------------------------------------------------
+Title : Powerful Adaptive Model Predictive Control for Power Plant Efficiency and Reliability
+Score : 0.8755427
+URL   : https://www.emersonautomationexperts.com/2025/industry/power-generation/powerful-adaptive-model-predictive-control-power-plant-efficiency-reliability
+--------------------------------------------------------------------------------
+Title : Model Predictive Control For Renewable Energy Integration Into ...
+Score : 0.8386933
+URL   : https://eureka.patsnap.com/report-model-predictive-control-for-renewable-energy-integration-into-power-grids

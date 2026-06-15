@@ -14,4 +14,4 @@ class TopicAnalyzerAgent:
 
         # print(result)
         
-        return result.model_dump()
+        return result

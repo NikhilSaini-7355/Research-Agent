@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List
 
-class QuestionSchema(BaseModel):
+
+class RefinedQuestionSchema(BaseModel):
     questions: List[str] = Field(
-        description="List of research questions"
+        description="Deduplicated research questions"
     )

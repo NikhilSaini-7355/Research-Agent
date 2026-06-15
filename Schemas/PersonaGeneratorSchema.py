@@ -1,14 +1,38 @@
 from pydantic import BaseModel, Field
+from typing import List
 
-# 1. Define the structure for a single expert
+
+from pydantic import BaseModel, Field
+
+
 class ExpertPersona(BaseModel):
-    role: str = Field(description="The professional role of the expert")
-    perspective: str = Field(description="A VERY short perspective max 1 or 2 sentences.")
 
-# 2. Hardcode the 5 slots so Groq knows EXACTLY what keys to expect
+    role: str = Field(
+        description="Professional role of the expert"
+    )
+
+    expertise: str = Field(
+        description="Primary area of expertise"
+    )
+
+    research_dimension: str = Field(
+        description="""
+        Assigned research dimension.
+
+        Must be one of:
+        - Fundamentals and Core Concepts
+        - Technical and Mathematical Foundations
+        - Implementation and Practical Deployment
+        - Applications and Industrial Use Cases
+        - Future Trends and Research Directions
+        """
+    )
+
+    perspective: str = Field(
+        description="Unique research perspective"
+    )
+
 class ExpertRolesSchema(BaseModel):
-    expert_1: ExpertPersona = Field(description="The first expert persona")
-    expert_2: ExpertPersona = Field(description="The second expert persona")
-    expert_3: ExpertPersona = Field(description="The third expert persona")
-    expert_4: ExpertPersona = Field(description="The fourth expert persona")
-    expert_5: ExpertPersona = Field(description="The fifth expert persona")
+    experts: List[ExpertPersona] = Field(
+        description="List of expert personas"
+    )
