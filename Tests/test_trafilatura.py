@@ -1,9 +1,12 @@
-import trafilatura
+import requests
+from bs4 import BeautifulSoup
 
-url = "https://en.wikipedia.org/wiki/Artificial_intelligence"
+url = "https://www.mdpi.com/2075-5309/15/18/3298"
+html = requests.get(url).text
 
-downloaded = trafilatura.fetch_url(url)
+soup = BeautifulSoup(
+    html,
+    "html.parser"
+)
 
-text = trafilatura.extract(downloaded)
-
-print(text[:1000])
+text = soup.get_text("\n")

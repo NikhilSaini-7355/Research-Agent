@@ -18,9 +18,9 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 
-load_dotenv()
+load_dotenv(override=True)
 
-firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
+firecrawl_api_key = "fc-9d8ac42160434ed89824377e1815d664"
 
 TopicAnalyzerObj = TopicAnalyzerAgent()
 
@@ -88,7 +88,6 @@ try:
     filtered_results = []
 
     for result in all_results:
-
 
         score = getattr(result, "score", 0.0)
 
