@@ -4,9 +4,14 @@ langchain-openai
 langchain-groq
 langchain-core
 langchain-text-splitters
+langchain-chroma
 openai
 
+sentence-transformers
+
 tavily-python
+passlib[bcrypt]
+pydantic[email]
 asyncio
 
 psycopg2-binary
@@ -14,6 +19,7 @@ psycopg2-binary
 chromadb
 
 fastapi
+asyncpg
 uvicorn
 
 streamlit

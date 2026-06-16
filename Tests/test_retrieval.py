@@ -38,4 +38,4 @@ for i, (doc, score) in enumerate(results, start=1):
         print(f"{key}: {value}")
 
     print("\nContent:")
-    print(doc.page_content[:1500])
+    print(doc.page_content)

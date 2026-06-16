@@ -2,7 +2,10 @@ import os
 import json
 from firecrawl import Firecrawl
 from dotenv import load_dotenv
-
+import shutil
+from Agents.content_quality_evaluator import (
+    ContentQualityEvaluator
+)
 from src.utils.clean_markdown import clean_markdown
 
 load_dotenv()
@@ -26,12 +29,14 @@ class ContentExtractor:
             exist_ok=True
         )
 
+        self.evaluator = ContentQualityEvaluator()
+
     def extract_content(
         self,
         search_results
     ):
 
-        saved_count = 0
+        success_count = 0
         failed_count = 0
 
         metadata_records = []
@@ -106,23 +111,35 @@ class ContentExtractor:
                 # Save markdown
                 # --------------------------
 
+                evaluation_result = self.evaluator.evaluate(
+                    cleaned_content[:8000]
+                )
+
+                quality = evaluation_result.quality.upper()
+
                 filename = (
-                    f"doc_{saved_count+1}.md"
-                )
+                        f"doc_{success_count+1}.md"
+                    )
 
-                filepath = os.path.join(
-                    "research_docs",
-                    filename
-                )
+                if quality == "HIGH":
+                    
+                    filepath = os.path.join(
+                        "research_docs",
+                        filename
+                    )
 
-                with open(
-                    filepath,
-                    "w",
-                    encoding="utf-8"
-                ) as f:
+                    with open(
+                        filepath,
+                        "w",
+                        encoding="utf-8"
+                    ) as f:
 
-                    f.write(
-                        cleaned_content
+                        f.write(
+                            cleaned_content
+                        )
+                    
+                    print(
+                    f"Saved: {filename}"
                     )
 
                 metadata_records.append({
@@ -145,14 +162,13 @@ class ContentExtractor:
 
                     "word_count": word_count,
 
-                    "paragraph_count": paragraph_count
+                    "paragraph_count": paragraph_count,
+                    "quality": evaluation_result.quality,
+                    "knowledge_density": evaluation_result.knowledge_density,
+                    "reason": evaluation_result.reason
                 })
 
-                saved_count += 1
-
-                print(
-                    f"Saved: {filename}"
-                )
+                success_count += 1
 
             except Exception as e:
 
@@ -183,7 +199,7 @@ class ContentExtractor:
         print("\n" + "=" * 50)
 
         print(
-            f"Saved Documents: {saved_count}"
+            f"Extracted Documents: {success_count}"
         )
 
         print(
@@ -191,3 +207,5 @@ class ContentExtractor:
         )
 
         print("=" * 50)
+
+

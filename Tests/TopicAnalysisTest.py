@@ -19,8 +19,8 @@ try:
     result = TopicAnalyzerObj.analyze("India vs China economic comparison")
     
     logging.info("Topic Analysis completed successfully.")
-
-    print(json.dumps(result, indent=2))
+    
+    print(json.dumps(result.model_dump(), indent=2))
 
 except Exception as e:
     logging.error("An error occurred while analyzing the topic.")

@@ -97,7 +97,6 @@ The authors declare that they have no known competing financial interests or per
 ## Acknowledgments
 This study was supported by the Cummins R&T, USA, Natural Sciences and Engineering Research Council (NSERC) of Canada and Canada First Research Excellence Fund, Canada
 . The authors would like to thank Dr. Lisa A. Farrell for her insightful technical discussions during this study.
-Recommended articles
 - AlcalaE. _et al._
 ### TS-MPC for autonomous vehicle using a learning approach
 ### IFAC-PapersOnLine
