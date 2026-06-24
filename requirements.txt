@@ -13,6 +13,8 @@ tavily-python
 passlib[bcrypt]
 pydantic[email]
 asyncio
+contextvars
+google-genai
 
 psycopg2-binary
 
