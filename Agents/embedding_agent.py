@@ -40,7 +40,7 @@ async def process_pending_embeddings(db: AsyncSession, project_id: UUID):
             
         except Exception as e:
             print(f"❌ Failed to embed content {item.id}: {e}")
-            item.embedding_status = "failed"
+            item.embedding_status = "pending"
             db.add(item)
             await db.commit()
 

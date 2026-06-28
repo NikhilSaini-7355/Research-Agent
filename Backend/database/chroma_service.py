@@ -5,6 +5,8 @@ from chromadb.utils import embedding_functions
 from uuid import UUID
 from typing import List
 from dotenv import load_dotenv  # 1. Import load_dotenv
+from chromadb import Search, K, Knn
+from backend.core.context import db_session_var, current_user_var, current_project_id_var
 
 load_dotenv()
 
@@ -63,6 +65,25 @@ class ChromaService:
             ids=ids
         )
         print(f"✅ Embedded and stored {len(chunks)} chunks in ChromaDB.")
+
+    def retrieve_by_query(self, query: str, limit: int = 10):
+        """
+        Retrieve documents from the database based on a query.
+
+        Args:
+            query (str): The search query.
+            top_k (int): The number of top results to return.
+            limit (int): The maximum number of results to retrieve.
+        """
+        project_id = current_project_id_var.get()
+        search = (Search()
+        .where(K("project_id") == project_id)
+        .rank(Knn(query=query))
+        .limit(limit)
+        .select(K.DOCUMENT, K.SCORE))
+
+        results = self.collection.search(search)
+        return results
 
 # Instantiate the service
 chroma_service = ChromaService()
