@@ -31,14 +31,28 @@ def get_clean_results(results_dict):
 
 try:
     query = "Benefits AI has given to the US Citizens"
-    result = chroma_service.retrieve_by_query(query,5)
+    result = chroma_service.retrieve_by_query(query, 5)
     final_res = get_clean_results(result)
+    
     synthesizer = SynthesizerAgent()
     final_ans = synthesizer.synthesize_chunks(topic="AI in USA", retrieved_data=final_res)
-    for finding in final_ans.key_findings:
-        print(f"🔹 {finding.theme}: {finding.fact}")
-        print(f"   🔗 Source IDs: {finding.source_ids}\n")
+    
+    # Optional: Print the executive summary if you still want it
+    print(f"Executive Summary:\n{final_ans.executive_summary}\n")
+    print("="*40, "\n")
+    
+    # Loop to generate your clean outline
+    for section in final_ans.report_sections:
+        # Print the clean header
+        print(section.section_title)
+        
+        # Print the concise bullet points
+        for point in section.detailed_points:
+            print(f"- {point}")
+            
+        # Print the citations in a subtle way at the end of the section
+        print(f"  [Sources: {', '.join(section.source_ids)}]\n")
         
 except Exception as e:
-    logging.error("An error occurred while generating personas.")
+    logging.error("An error occurred while generating the report.")
     print(CustomException(e, sys))
