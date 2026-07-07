@@ -66,7 +66,7 @@ class ChromaService:
         )
         print(f"✅ Embedded and stored {len(chunks)} chunks in ChromaDB.")
 
-    def retrieve_by_query(self, query: str, limit: int = 10):
+    def retrieve_by_query(self, query: str, limit: int = 5):
         """
         Retrieve documents from the database based on a query.
 
