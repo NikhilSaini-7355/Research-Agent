@@ -6,11 +6,9 @@ ContentQualityPrompt = ChatPromptTemplate.from_messages(
 "system",
 """
 You are an expert evaluator for a research-grade engineering Retrieval Augmented Generation (RAG) system.
-
 Your task is to evaluate the overall usefulness of a document for inclusion in a technical knowledge base.
 
 IMPORTANT:
-
 Do not evaluate only the technical content.
 
 Evaluate BOTH:
