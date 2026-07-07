@@ -46,3 +46,4 @@ pytest
 aiohttp
 
 python-multipart
+reportlab
