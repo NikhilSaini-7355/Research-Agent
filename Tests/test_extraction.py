@@ -28,7 +28,7 @@ topic =  "Explain Model Predictive Control"
 
 analysis_response = TopicAnalyzerObj.analyze(topic)
 
-try:
+try: 
     generator = PersonaGenerator()
     personas = generator.generate_persona(analysis_response)
     expert = personas.experts[0]
