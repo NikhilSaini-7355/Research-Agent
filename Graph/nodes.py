@@ -65,7 +65,8 @@ def persona_generator_node(state: WorkflowState) -> WorkflowState:
     try:
         generator = PersonaGenerator()
         topic_analysis_response = state["topic_analysis_response"]
-        personas = generator.generate_persona(topic_analysis_response)
+        project_id = state["project_id"]
+        personas = generator.generate_persona(topic_analysis_response, project_id)
     except Exception as e:
         logging.error(f"An error occurred while generating personas: {str(e)}")
         raise CustomException(e, sys)

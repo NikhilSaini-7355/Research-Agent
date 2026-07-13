@@ -1,25 +1,39 @@
+# File: Tests/test_personaGenerator.py
+import sys
+import os
+import asyncio
+
+# Ensure Python finds all your top-level folders
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.exception import CustomException
 from src.logger import logging
-import sys 
-import json
-
 from Agents.persona_generator import PersonaGenerator
 from Agents.TopicAnalyzerAgent import TopicAnalyzerAgent
 
-TopicAnalyzerObj = TopicAnalyzerAgent()
+async def check_persona_generator_node():
+    try:
+        print("🚀 Starting Topic Analysis...")
+        TopicAnalyzerObj = TopicAnalyzerAgent()
+        topic = "Explain Model Predictive Control"
+        analysis_response = TopicAnalyzerObj.analyze(topic)
+        print("✅ Topic Analysis Complete.")
 
-topic =  "Explain Model Predictive Control"
+        print("🚀 Generating Personas...")
+        generator = PersonaGenerator()
+        personas = await generator.generate_persona(analysis_response, "21111111-1111-1111-1111-111111111111")
+        
+        logging.info("Persona generation completed successfully.")
+        print("\n--- GENERATED EXPERTS ---")
+        for expert in personas.experts:
+            print(f"Role: {expert.role}")
+            print(f"Expertise: {expert.expertise}")
+            print(f"Research Dimension: {expert.research_dimension}")
+            print(f"Perspective: {expert.perspective}\n")
 
-analysis_response = TopicAnalyzerObj.analyze(topic)
+    except Exception as e:
+        logging.error("An error occurred while generating personas.")
+        print(CustomException(e, sys))
 
-try:
-    generator = PersonaGenerator()
-    personas = generator.generate_persona(analysis_response)
-    logging.info("Persona generation completed successfully.")
-    personas = personas.model_dump()  # Convert to dictionary if it's a Pydantic model
-    print(json.dumps(personas, indent=2))
-
-except Exception as e:
-    logging.error("An error occurred while generating personas.")
-    print(CustomException(e, sys))
-
+if __name__ == "__main__":
+    asyncio.run(check_persona_generator_node())
