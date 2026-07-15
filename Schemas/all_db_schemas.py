@@ -37,8 +37,7 @@ class PersonaUpdate(BaseModel):
 
 # --- QUESTION SCHEMAS ---
 class QuestionCreate(BaseModel):
-    persona_id: UUID
-    question_text: str
+    project_id: UUID
     queries: List[str]
 
 class QuestionUpdate(BaseModel):

@@ -66,8 +66,7 @@ async def test_entire_multi_agent_pipeline():
             print(f"✅ Persona Generated: {persona.role}")
 
             question_data = QuestionCreate(
-                persona_id=persona.id,
-                question_text="What are the main degradation mechanisms in solid-state electrolytes?",
+                project_id=project.id,
                 queries=["solid state electrolyte degradation", "dendrite formation solid state batteries"]
             )
             question = await crud_question.create(db=session, obj_in=question_data)

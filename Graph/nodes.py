@@ -26,7 +26,7 @@ from src.exception import CustomException
 from src.logger import logging
 from src.config.sources import allowed_domains
 from dotenv import load_dotenv
-from Schema.workflow_state_schema import WorkflowState
+from Schemas.workflow_state_schema import WorkflowState
 
 load_dotenv()
 
@@ -48,7 +48,6 @@ def get_context(results_dict):
     return "\n\n".join(context)
 
 
-
 def topic_analyzer_node(state: WorkflowState) -> WorkflowState:
     try:
         TopicAnalyzerObj = TopicAnalyzerAgent()
@@ -61,12 +60,12 @@ def topic_analyzer_node(state: WorkflowState) -> WorkflowState:
             "topic_analysis_response": analysis_response
         }
 
-def persona_generator_node(state: WorkflowState) -> WorkflowState:
+async def persona_generator_node(state: WorkflowState) -> WorkflowState:
     try:
         generator = PersonaGenerator()
         topic_analysis_response = state["topic_analysis_response"]
         project_id = state["project_id"]
-        personas = generator.generate_persona(topic_analysis_response, project_id)
+        personas = await generator.generate_persona(topic_analysis_response, project_id)
     except Exception as e:
         logging.error(f"An error occurred while generating personas: {str(e)}")
         raise CustomException(e, sys)
@@ -74,14 +73,13 @@ def persona_generator_node(state: WorkflowState) -> WorkflowState:
         "personas": personas
     }
 
-def question_generator_node(state: WorkflowState) -> WorkflowState:
+async def question_generator_node(state: WorkflowState) -> WorkflowState:
     try:
         generator = question_generator_agent()
         all_questions = []
         topic = state["topic"]
         personas = state["personas"]
         for expert in personas.experts:
-
             questions = generator.generate_questions(
                 topic=topic,
                 expert=expert
@@ -95,11 +93,11 @@ def question_generator_node(state: WorkflowState) -> WorkflowState:
             topic,
             all_questions
         )
-        generator = SearchQueryGenerator()
+        generator2 = SearchQueryGenerator()
         all_queries = []
 
         for question in refined_questions.questions:
-            result = generator.generate_queries(
+            result = generator2.generate_queries(
             topic= topic,
             question=question
         )
@@ -108,6 +106,8 @@ def question_generator_node(state: WorkflowState) -> WorkflowState:
         unique_queries = list(
         dict.fromkeys(all_queries)
         )
+
+        await generator.save_queries(unique_queries, state["project_id"])
 
     except Exception as e:
         logging.error(f"An error occurred while generating questions: {str(e)}")
@@ -159,12 +159,14 @@ def search_node(state: WorkflowState) -> WorkflowState:
         "search_results": filtered_results
     }       
 
-def content_extractor_node(state: WorkflowState) -> WorkflowState:
+async def content_extractor_node(state: WorkflowState) -> WorkflowState:
+    # return {} # just to not do this expensive operation again and again while testing
     try:
         print(f"Extracting the contents...")
         extractor = ContentExtractor()
         filtered_results = state["search_results"]
-        extractor.extract_content(filtered_results)
+        project_id = state["project_id"]
+        await extractor.extract_content(filtered_results, project_id)
         print(f"extraction  is completed.")
     except Exception as e:
         logging.error(f"An error occurred while extracting content: {str(e)}")
@@ -188,7 +190,8 @@ def synthesizer_node(state: WorkflowState) -> WorkflowState:
         topic = state["topic"]
         query = f"Comprehensive research summary for the topic: {topic}"
         synthesizer = SynthesizerAgent()
-        research_summary = synthesizer.synthesize_research_summary(query, topic)
+        project_id = state["project_id"]
+        research_summary = synthesizer.synthesize_research_summary(query, topic, project_id)
 
     except Exception as e:
         logging.error(f"An error occurred while synthesizing the research summary: {str(e)}")
@@ -198,12 +201,12 @@ def synthesizer_node(state: WorkflowState) -> WorkflowState:
         "research_summary": research_summary
     }
 
-def outline_generator_node(state: WorkflowState) -> WorkflowState:
+async def outline_generator_node(state: WorkflowState) -> WorkflowState:
     try:
         generator = OutlineGenerator()
         research_summary = state["research_summary"]
         outline = generator.generate_outline(research_summary)
-
+        await generator.save_outline(state["project_id"], outline)
     except Exception as e:
         logging.error(f"An error occurred while generating the outline: {str(e)}")
         raise CustomException(e, sys)
@@ -212,18 +215,20 @@ def outline_generator_node(state: WorkflowState) -> WorkflowState:
         "outline": outline
     }
 
-def writer_node(state: WorkflowState) -> WorkflowState:
+async def writer_node(state: WorkflowState) -> WorkflowState:
     try:
         writer = WriterAgent()
         paper = []
         project_id = state["project_id"]
         topic = state["topic"]
         outline = state["outline"]
+        research_summary = state["research_summary"]
         paper.append(f"# {outline.title}\n")
         for section in outline.sections:
             retrieval_query = f"{topic} {section}"
             retrieved = chroma_service.retrieve_by_query(
                 retrieval_query,
+                project_id,
                 5
             )
             context = get_context(retrieved)
@@ -238,12 +243,11 @@ def writer_node(state: WorkflowState) -> WorkflowState:
         # Final Markdown
         # -----------------------------
         final_markdown = "\n".join(paper)
-
-        save_markdown_as_pdf(
-            markdown_text=final_markdown,
-            filename=f"Research_Paper_{project_id}.pdf"
-        )
-
+        await writer.save_generated_article(project_id=project_id, final_markdown=final_markdown, research_summary=research_summary)
+        # save_markdown_as_pdf(
+        #     markdown_text=final_markdown,
+        #     filename=f"Research_Paper_{project_id}.pdf"
+        # )
     except Exception as e:
         logging.error(f"An error occurred while writing the research paper: {str(e)}")
         raise CustomException(e, sys)

@@ -44,4 +44,4 @@ async def process_pending_embeddings(db: AsyncSession, project_id: UUID):
             db.add(item)
             await db.commit()
 
-    print("🎉 Embedding pipeline complete!")
+    print("🎉 Embedding  complete!")

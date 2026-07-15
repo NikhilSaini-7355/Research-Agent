@@ -20,14 +20,12 @@ class ResearchQuestionModel(Base):
     
     # index=True natively handles your CREATE INDEX statement.
     # ondelete="CASCADE" handles your CONSTRAINT fk_research_question.
-    persona_id: Mapped[uuid.UUID] = mapped_column(
+    project_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("research_personas.id", ondelete="CASCADE"),
+        ForeignKey("research_projects.id", ondelete="CASCADE"),
         nullable=False,
         index=True
     )
-    
-    question_text: Mapped[str] = mapped_column(TEXT, nullable=False)
     
     # Mapping the Postgres TEXT[] array to a Python List of Strings
     queries: Mapped[List[str]] = mapped_column(ARRAY(TEXT), nullable=False)
@@ -50,4 +48,4 @@ class ResearchQuestionModel(Base):
     
     # Looks UP to the Persona table
     # This matches the 'questions' relationship defined in ResearchPersonaModel
-    persona = relationship("ResearchPersonaModel", back_populates="questions")
+    project = relationship("ProjectModel", back_populates="questions")

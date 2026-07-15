@@ -9,7 +9,6 @@ from src.exception import CustomException
 from src.logger import logging
 from backend.database.chroma_service import chroma_service
 
-current_project_id_var.set(UUID('21111111-1111-1111-1111-111111111111'))
 
 def get_clean_results(results_dict):
     # Chroma returns lists of lists. We grab [0] because we only sent one search query.
@@ -54,11 +53,10 @@ class SynthesizerAgent:
         )
 
         return result
-    def synthesize_research_summary(self, query: str, topic: str):
-        result = chroma_service.retrieve_by_query(query, 5)
+    def synthesize_research_summary(self, query: str, topic: str, project_id:str):
+        result = chroma_service.retrieve_by_query(query, project_id, 5)
         final_res = get_clean_results(result)
         
-    
         final_ans = self.synthesize_chunks(topic, retrieved_data=final_res)
         
         research_summary = []

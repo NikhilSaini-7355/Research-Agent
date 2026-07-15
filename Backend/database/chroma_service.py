@@ -6,7 +6,7 @@ from uuid import UUID
 from typing import List
 from dotenv import load_dotenv  # 1. Import load_dotenv
 from chromadb import Search, K, Knn
-from backend.core.context import db_session_var, current_user_var, current_project_id_var
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
 load_dotenv()
 
@@ -25,16 +25,16 @@ class ChromaService:
 
         # This function perfectly replicates the VECTOR(1536) from your image.
         # It automatically converts text to vectors upon insertion.
-        self.google_ef = embedding_functions.GoogleGeminiEmbeddingFunction(
-            model_name="gemini-embedding-001",
-            task_type="RETRIEVAL_DOCUMENT",
-            dimension=1536,
-        )
+        self.sentence_transformer_ef  = SentenceTransformerEmbeddingFunction(
+                model_name="all-MiniLM-L6-v2",
+                device="cpu",
+                normalize_embeddings=False
+            )
         
         # Get or create the main "table" (called a Collection in Chroma)
         self.collection = self.client.get_or_create_collection(
-            name="research_knowledge_base",
-            embedding_function=self.google_ef
+            name="research_knowledge_base_v2",
+            embedding_function=self.sentence_transformer_ef
         )
 
     async def ingest_chunks(self, project_id: UUID, content_id: UUID, chunks: List[str]):
@@ -66,16 +66,15 @@ class ChromaService:
         )
         print(f"✅ Embedded and stored {len(chunks)} chunks in ChromaDB.")
 
-    def retrieve_by_query(self, query: str, limit: int = 5):
+    def retrieve_by_query(self, query: str, project_id: str, limit: int = 5):
         """
         Retrieve documents from the database based on a query.
 
         Args:
             query (str): The search query.
-            top_k (int): The number of top results to return.
+            project_id (str): The project ID to filter results.
             limit (int): The maximum number of results to retrieve.
         """
-        project_id = current_project_id_var.get()
         search = (Search()
         .where(K("project_id") == project_id)
         .rank(Knn(query=query))

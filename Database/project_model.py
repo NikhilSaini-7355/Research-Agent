@@ -67,3 +67,9 @@ class ProjectModel(Base):
         uselist=False, # uselist=False enforces the strict 1:1 relationship for the final article
         cascade="all, delete-orphan"
     )
+
+    questions = relationship(
+        "ResearchQuestionModel", 
+        back_populates="project", 
+        cascade="all, delete-orphan"
+    )

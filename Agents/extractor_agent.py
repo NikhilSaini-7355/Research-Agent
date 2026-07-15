@@ -7,6 +7,10 @@ from Agents.content_quality_evaluator import (
     ContentQualityEvaluator
 )
 from src.utils.clean_markdown import clean_markdown
+import uuid
+from backend.database.database_session import AsyncSessionLocal
+from Schemas.all_db_schemas import ExtractedContentCreate
+from backend.database.crud_agents import crud_content
 
 load_dotenv()
 
@@ -24,22 +28,17 @@ class ContentExtractor:
         self.MIN_WORDS = 300
         self.MIN_PARAGRAPHS = 1
 
-        os.makedirs(
-            "research_docs",
-            exist_ok=True
-        )
-
         self.evaluator = ContentQualityEvaluator()
 
-    def extract_content(
+    async def extract_content(
         self,
-        search_results
+        search_results,
+        project_id
     ):
 
         success_count = 0
         failed_count = 0
-
-        metadata_records = []
+        project_id = uuid.UUID(project_id)
 
         seen_urls = set()
 
@@ -117,58 +116,29 @@ class ContentExtractor:
 
                 quality = evaluation_result.quality.upper()
 
-                filename = (
-                        f"doc_{success_count+1}.md"
-                    )
-
                 if quality == "HIGH":
-                    
-                    filepath = os.path.join(
-                        "research_docs",
-                        filename
-                    )
+                    async with AsyncSessionLocal() as session:
+                        try:
+                            content_data = ExtractedContentCreate(
+                                project_id=project_id,
+                                url=url,
+                                title=getattr(result, "title", "Untitled Document"),
+                                raw_content=cleaned_content
+                            )
 
-                    with open(
-                        filepath,
-                        "w",
-                        encoding="utf-8"
-                    ) as f:
-
-                        f.write(
-                            cleaned_content
-                        )
-                    
-                    print(
-                    f"Saved: {filename}"
-                    )
-
-                metadata_records.append({
-
-                    "file": filename,
-
-                    "url": url,
-
-                    "title": getattr(
-                        result,
-                        "title",
-                        ""
-                    ),
-
-                    "score": getattr(
-                        result,
-                        "score",
-                        None
-                    ),
-
-                    "word_count": word_count,
-
-                    "paragraph_count": paragraph_count,
-                    "quality": evaluation_result.quality,
-                    "knowledge_density": evaluation_result.knowledge_density,
-                    "reason": evaluation_result.reason
-                })
-
-                success_count += 1
+                            await crud_content.create(
+                                db=session,
+                                obj_in=content_data
+                            )
+                            print(f"Ready to saved to DB: {url}")
+                            await session.commit()
+                            success_count += 1
+                        except Exception as e:
+                            import traceback
+                            traceback.print_exc()  # <--- Add this line to bypass CustomException masking
+                            print(f"\n❌ Extracted Content Saving Failed: {e}")
+                            await session.rollback()
+                            raise e
 
             except Exception as e:
 
@@ -179,23 +149,7 @@ class ContentExtractor:
                 )
 
                 print(e)
-
-        # --------------------------
-        # Save metadata
-        # --------------------------
-
-        with open(
-            "research_docs/metadata.json",
-            "w",
-            encoding="utf-8"
-        ) as f:
-
-            json.dump(
-                metadata_records,
-                f,
-                indent=4
-            )
-
+        
         print("\n" + "=" * 50)
 
         print(

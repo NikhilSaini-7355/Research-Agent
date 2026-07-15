@@ -43,11 +43,3 @@ class ResearchPersonaModel(Base):
     # 1. Looks UP to the Project table
     # This matches the 'personas' relationship we defined in ProjectModel
     project = relationship("ProjectModel", back_populates="personas")
-
-    # 2. Looks DOWN to the Research Questions table (1-to-Many)
-    # When a persona is deleted, wipe all the specific questions they generated
-    questions = relationship(
-        "ResearchQuestionModel", 
-        back_populates="persona", 
-        cascade="all, delete-orphan"
-    )
