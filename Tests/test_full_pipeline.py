@@ -5,8 +5,8 @@ from Graph.research_pipeline import app
 
 async def main():
     inputs = {
-        "topic": "Model Context Protocol",
-        "project_id": "71111111-1111-1111-1111-111111111111"
+        "topic": "Control alogrithms in robotics",
+        "project_id": "71111111-1111-1111-1111-111111111112"
     }
 
     print("🚀 Starting Async Pipeline...")
@@ -19,7 +19,7 @@ async def main():
         # indent=4 adds spaces for readability
         pprint.pprint(result, indent=4)
         print("-" * 50)
-
+    
     print("\n research summary:\n")
     print(final_result.get("research_summary", "No research summary generated."))
 
