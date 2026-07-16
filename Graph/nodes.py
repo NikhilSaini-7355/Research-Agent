@@ -50,6 +50,13 @@ def get_context(results_dict):
 
 def topic_analyzer_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=10,
+            status="Analyzing Topic"
+        )
         TopicAnalyzerObj = TopicAnalyzerAgent()
         topic = state["topic"]
         analysis_response = TopicAnalyzerObj.analyze(topic)

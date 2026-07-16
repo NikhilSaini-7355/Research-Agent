@@ -1,34 +1,69 @@
-import bcrypt
+from datetime import datetime, timedelta, timezone
+from typing import Any
 
-class SecurityUtils:
-    """
-    Utility class for handling cryptographic operations within the application.
-    Using native bcrypt to avoid passlib compatibility issues.
-    """
+from jose import jwt, JWTError
+from passlib.context import CryptContext
 
-    @staticmethod
-    def hash_password(password: str) -> str:
-        """
-        Takes a plain text password and returns a secure, salted bcrypt hash.
-        """
-        # Bcrypt requires bytes, so we encode the python string to utf-8
-        pwd_bytes = password.encode('utf-8')
-        
-        # Generate a salt and hash the password
-        salt = bcrypt.gensalt()
-        hashed_bytes = bcrypt.hashpw(pwd_bytes, salt)
-        
-        # Decode back to a string so SQLAlchemy can save it in the database
-        return hashed_bytes.decode('utf-8')
+import os
+from dotenv import load_dotenv
 
-    @staticmethod
-    def verify_password(plain_password: str, hashed_password: str) -> bool:
-        """
-        Compares a plain text password against an existing database hash.
-        Returns True if they match, False otherwise.
-        """
-        # Convert both strings back to bytes for comparison
-        plain_bytes = plain_password.encode('utf-8')
-        hashed_bytes = hashed_password.encode('utf-8')
-        
-        return bcrypt.checkpw(plain_bytes, hashed_bytes)
+load_dotenv()
+
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto"
+)
+
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")      # We'll move this to .env later
+ALGORITHM = os.getenv("JWT_ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES"))
+
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(
+    plain_password: str,
+    hashed_password: str
+) -> bool:
+    return pwd_context.verify(
+        plain_password,
+        hashed_password
+    )
+
+
+def create_access_token(
+    data: dict[str, Any]
+) -> str:
+
+    payload = data.copy()
+
+    expire = datetime.now(timezone.utc) + timedelta(
+        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+
+    payload["exp"] = expire
+
+    return jwt.encode(
+        payload,
+        SECRET_KEY,
+        algorithm=ALGORITHM
+    )
+
+if(__name__ == "__main__"):
+    print(hash_password("pass"))
+
+def decode_access_token(token: str) -> dict:
+
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+        return payload
+
+    except JWTError:
+        return None

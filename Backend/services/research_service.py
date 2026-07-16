@@ -10,11 +10,7 @@ class ResearchService:
     def __init__(self, db: Session):
         self.db = db
 
-    def _get_job(
-        self,
-        job_id: str
-    ) -> ResearchJob | None:
-
+    def get_job(self, job_id: str) -> ResearchJob | None:
         return (
             self.db.query(ResearchJob)
             .filter(ResearchJob.job_id == job_id)
@@ -22,10 +18,11 @@ class ResearchService:
         )
 
     def create_job(self, topic: str) -> ResearchJob:
-
+        
         job = ResearchJob(
             job_id=str(uuid4()),
             topic=topic,
+            project_id = str(uuid4()),
             status="queued",
             progress=0
         )
@@ -38,11 +35,11 @@ class ResearchService:
 
     def get_job_status(self, job_id: str) -> ResearchJob | None:
 
-        return self._get_job(job_id)
+        return self.get_job(job_id)
 
     def get_result(self, job_id: str) -> ResearchJob | None:
 
-        return self._get_job(job_id)
+        return self.get_job(job_id)
 
     def save_result(
         self,
@@ -51,7 +48,7 @@ class ResearchService:
         pdf_path: str
     ) -> ResearchJob | None:
 
-        job = self._get_job(job_id)
+        job = self.get_job(job_id)
 
         if job is None:
             return None
@@ -73,7 +70,7 @@ class ResearchService:
         error: str
     ) -> ResearchJob | None:
 
-        job = self._get_job(job_id)
+        job = self.get_job(job_id)
 
         if job is None:
             return None

@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from backend.api.v1.endpoints.auth import router as auth_router
+
 from backend.api.v1.router import api_router
 
 app = FastAPI(
@@ -7,3 +9,4 @@ app = FastAPI(
 )
 
 app.include_router(api_router)
+app.include_router(auth_router)

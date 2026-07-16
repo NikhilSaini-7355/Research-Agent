@@ -30,7 +30,7 @@ AsyncSessionLocal = async_sessionmaker(
 )
 
 # 3. DEPENDENCY GENERATOR
-async def get_db():
+async def get_db_neon():
     """
     Yields a database session for a single request, 
     then reliably closes it when the request is done.

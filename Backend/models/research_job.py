@@ -17,6 +17,11 @@ class ResearchJob(Base):
         String,
         nullable=False
     )
+    project_id = Column(
+        String,
+        unique=True,
+        nullable=False
+    )
 
     status = Column(
         String,
@@ -26,16 +31,6 @@ class ResearchJob(Base):
     progress = Column(
         Integer,
         default=0
-    )
-
-    markdown = Column(
-        Text,
-        nullable=True
-    )
-
-    pdf_path = Column(
-        String,
-        nullable=True
     )
 
     error = Column(
