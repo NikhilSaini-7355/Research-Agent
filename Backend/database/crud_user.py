@@ -24,8 +24,11 @@ class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
             lastname=obj_in.lastname,
             hashed_password=hashed_password
         )
+        
         db.add(db_obj)
-        await db.commit()
+        res = await db.commit()
+        
+
         await db.refresh(db_obj)
         return db_obj
 

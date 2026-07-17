@@ -9,6 +9,7 @@ from fastapi import HTTPException, status
 from backend.core.security import hash_password
 from Schemas.all_db_schemas import UserCreate
 from pydantic import EmailStr
+import logging
 
 class AuthService:
 
@@ -29,16 +30,19 @@ class AuthService:
         if user is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid email or password"
+                detail="User does not exist. Please SignUP"
             )
-
+        print("LOGIN password:", repr(password))
+        print("STORED hash:", repr(user.hashed_password))
+        print("STORED hash length:", len(user.hashed_password))
         if not verify_password(
             password,
             user.hashed_password
         ):
+            h_pass = hash_password(password)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid email or password"
+                detail=f"Invalid email or password . stored :-{user.hashed_password} /n new_hash: {h_pass}"
             )
 
         token = create_access_token(
@@ -77,13 +81,12 @@ class AuthService:
                 detail="User already registered with this email."
             )
 
-        hashed_password = hash_password(password)
-
+    
         new_user = UserCreate(
             email=email,
             firstname=firstname,
             lastname=lastname,
-            password=hashed_password,  # or hashed_password=... depending on your schema
+            password=password,  
         )
 
         return await crud_user.create(

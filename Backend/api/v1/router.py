@@ -15,6 +15,5 @@ api_router.include_router(
 )
 api_router.include_router(
     login.router,
-    prefix="/me",
     tags=["ME"]
 )

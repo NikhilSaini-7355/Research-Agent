@@ -18,7 +18,6 @@ SECRET_KEY = os.getenv("JWT_SECRET_KEY")      # We'll move this to .env later
 ALGORITHM = os.getenv("JWT_ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_EXPIRE_MINUTES"))
 
-
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 

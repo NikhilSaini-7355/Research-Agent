@@ -22,7 +22,6 @@ def get_db():
         db.close()
 
 
-
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: AsyncSession = Depends(get_db_neon)

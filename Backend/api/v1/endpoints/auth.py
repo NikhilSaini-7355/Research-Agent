@@ -18,7 +18,7 @@ async def login(
 ):
 
     auth_service = AuthService(db)
-
+    print( "hello" ,request)
     result = await auth_service.login(
         email=request.email,
         password=request.password
