@@ -17,12 +17,13 @@ class ResearchService:
             .first()
         )
 
-    def create_job(self, topic: str) -> ResearchJob:
+    def create_job(self, topic: str, user_id, project_id) -> ResearchJob:
         
         job = ResearchJob(
             job_id=str(uuid4()),
             topic=topic,
-            project_id = str(uuid4()),
+            user_id=str(user_id),
+            project_id = str(project_id),
             status="queued",
             progress=0
         )

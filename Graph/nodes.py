@@ -8,6 +8,7 @@ from typing import List, Dict, Any
 
 from backend.database.database_session import AsyncSessionLocal
 from backend.database.chroma_service import chroma_service
+from backend.services.progress_service import ProgressService
 
 from Agents.synthesizer_agent import SynthesizerAgent
 from Agents.extractor_agent import ContentExtractor
@@ -50,6 +51,7 @@ def get_context(results_dict):
 
 def topic_analyzer_node(state: WorkflowState) -> WorkflowState:
     try:
+
         progress_service = state["services"]["progress"]
 
         progress_service.update_progress(
@@ -69,6 +71,13 @@ def topic_analyzer_node(state: WorkflowState) -> WorkflowState:
 
 async def persona_generator_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=20,
+            status="Generating Personas"
+        )
         generator = PersonaGenerator()
         topic_analysis_response = state["topic_analysis_response"]
         project_id = state["project_id"]
@@ -82,6 +91,13 @@ async def persona_generator_node(state: WorkflowState) -> WorkflowState:
 
 async def question_generator_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=30,
+            status="Generating Questions"
+        )
         generator = question_generator_agent()
         all_questions = []
         topic = state["topic"]
@@ -126,6 +142,13 @@ async def question_generator_node(state: WorkflowState) -> WorkflowState:
 
 def search_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=40,
+            status="Searching Sources"
+        )
         searcher = web_searcher()
         all_results = []
         unique_queries = state["search_queries"]
@@ -169,6 +192,13 @@ def search_node(state: WorkflowState) -> WorkflowState:
 async def content_extractor_node(state: WorkflowState) -> WorkflowState:
     # return {} # just to not do this expensive operation again and again while testing
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=50,
+            status="Extracting the contents"
+        )
         print(f"Extracting the contents...")
         extractor = ContentExtractor()
         filtered_results = state["search_results"]
@@ -183,6 +213,13 @@ async def content_extractor_node(state: WorkflowState) -> WorkflowState:
 async def embedder_node(state: WorkflowState) -> WorkflowState:
     async with AsyncSessionLocal() as session:
         try:
+            progress_service = state["services"]["progress"]
+
+            progress_service.update_progress(
+                job_id=state["job_id"],
+                progress=60,
+                status="Processing Embeddings."
+            )
             target_project_id = uuid.UUID(state["project_id"])
             await process_pending_embeddings(db=session, project_id=target_project_id)
             
@@ -194,6 +231,13 @@ async def embedder_node(state: WorkflowState) -> WorkflowState:
 
 def synthesizer_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=75,
+            status="Synthesizing Research."
+        )
         topic = state["topic"]
         query = f"Comprehensive research summary for the topic: {topic}"
         synthesizer = SynthesizerAgent()
@@ -210,6 +254,13 @@ def synthesizer_node(state: WorkflowState) -> WorkflowState:
 
 async def outline_generator_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=85,
+            status="Generating Outline."
+        )
         generator = OutlineGenerator()
         research_summary = state["research_summary"]
         outline = generator.generate_outline(research_summary)
@@ -224,6 +275,13 @@ async def outline_generator_node(state: WorkflowState) -> WorkflowState:
 
 async def writer_node(state: WorkflowState) -> WorkflowState:
     try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=95,
+            status="Writing Final Report."
+        )
         writer = WriterAgent()
         paper = []
         project_id = state["project_id"]

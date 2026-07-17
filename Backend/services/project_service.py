@@ -22,18 +22,3 @@ class ProjectService:
             obj_in=project,
         )
 
-import asyncio
-async def main():
-    async with AsyncSessionLocal() as db:
-        current_user = "e687b70e-49ae-4542-87c2-eddab68a18ed"
-        project_service = ProjectService(db=db)
-        project = await project_service.create_project(
-            user_id=current_user,
-            topic="Large Language Models"
-        )
-        print(project.id)
-        print(project.user_id)
-        print(project.topic)
-
-if(__name__ == "__main__"):
-    asyncio.run(main())

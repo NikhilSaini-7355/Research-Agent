@@ -10,7 +10,11 @@ class JobStatusResponse(BaseModel):
     job_id: str
     status: str
     progress: int
-
+    
+class ResearchStatusResponse(BaseModel):
+    job_id: str
+    status: str
+    progress: int
 
 class ResearchResultResponse(BaseModel):
     job_id: str

@@ -17,6 +17,10 @@ class ResearchJob(Base):
         String,
         nullable=False
     )
+    user_id = Column(
+        String,
+        nullable=False
+    )
     project_id = Column(
         String,
         unique=True,
