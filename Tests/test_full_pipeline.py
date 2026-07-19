@@ -5,8 +5,8 @@ from Graph.research_pipeline import app
 
 async def main():
     inputs = {
-        "topic": "Model Context Protocol",
-        "project_id": "71111111-1111-1111-1111-111111111111"
+        "topic": "Control algorithms in robotics",
+        "project_id": "71111111-1111-1111-1111-111111111112"
     }
 
     print("🚀 Starting Async Pipeline...")

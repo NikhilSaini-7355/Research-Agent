@@ -255,9 +255,3 @@ async def writer_node(state: WorkflowState) -> WorkflowState:
     return {
         "final_markdown": final_markdown
     }
-
-
-
-# db interaction
-# async session passage
-# project id, user id passage, etc
