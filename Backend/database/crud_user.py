@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.database.crud_base import CRUDBase
 from Database.user_model import UserModel
 from Schemas.all_db_schemas import UserCreate, UserUpdate
-from backend.core.security import SecurityUtils # The hashing util we made earlier
+from backend.core.security import hash_password,verify_password  # The hashing util we made earlier
 
 class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
     
@@ -16,7 +16,7 @@ class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
 
     async def create(self, db: AsyncSession, *, obj_in: UserCreate) -> UserModel:
         """Overrides the base create to securely hash the password."""
-        hashed_password = SecurityUtils.hash_password(obj_in.password)
+        hashed_password = hash_password(obj_in.password)
         
         db_obj = UserModel(
             email=obj_in.email,
@@ -24,8 +24,11 @@ class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
             lastname=obj_in.lastname,
             hashed_password=hashed_password
         )
+        
         db.add(db_obj)
-        await db.commit()
+        res = await db.commit()
+        
+
         await db.refresh(db_obj)
         return db_obj
 
@@ -34,7 +37,7 @@ class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
         user = await self.get_by_email(db, email=email)
         if not user:
             return None
-        if not SecurityUtils.verify_password(password, user.hashed_password):
+        if not verify_password(password, user.hashed_password):
             return None
         return user
 

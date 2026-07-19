@@ -47,3 +47,5 @@ aiohttp
 
 python-multipart
 reportlab
+
+python-jose[cryptography]

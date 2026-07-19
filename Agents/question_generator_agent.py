@@ -31,7 +31,7 @@ class question_generator_agent:
                 question = await crud_question.create(db=session, obj_in=question_data)
                 await session.commit() 
                 print("💾 All questions successfully committed to the database.")
-
+                
             except Exception as e:
                 import traceback
                 traceback.print_exc()  # <--- Add this line to bypass CustomException masking

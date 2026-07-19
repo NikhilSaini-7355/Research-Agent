@@ -58,7 +58,7 @@ class WriterAgent:
             db_obj=existing_article, # <--- Here is how it knows what to update!
             obj_in=update_data       # <--- Here is the new data
             )
-            
+            print("✅ Workflow completed.")
             print("✅ Successfully updated!")
 
 

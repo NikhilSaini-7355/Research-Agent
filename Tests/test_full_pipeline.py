@@ -19,7 +19,7 @@ async def main():
         # indent=4 adds spaces for readability
         pprint.pprint(result, indent=4)
         print("-" * 50)
-
+    
     print("\n research summary:\n")
     print(final_result.get("research_summary", "No research summary generated."))
 
