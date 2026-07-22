@@ -2,18 +2,52 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import { Network, Mail, Lock } from 'lucide-react';
+import { Network, Mail, Lock, Loader2 } from 'lucide-react';
 import { useStore } from '../@/store/useStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import {useState} from 'react';
+import axios from 'axios';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const login = useStore((state) => state.login);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    login();
-    navigate('/dashboard');
+    // alert('Form intercept wrapper successfully caught event!');
+  console.log('CRITICAL CHECK: Form submission actively working.');
+    setIsLoading(true);
+    setError(null);
+    try{
+      const body = {
+        email,
+        password
+      }
+      console.log('Attempting login with:', body);
+      const response = await axios.post('http://localhost:8000/auth/login', body);
+      console.log('Login successful:', response.data);
+      localStorage.setItem('auth_token', response.data.access_token);
+      const userData = await axios.get('http://localhost:8000/api/v1/me', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+        }
+      });
+      console.log('User data:', userData.data);
+      login(userData.data);
+      navigate('/dashboard');
+    }
+    catch (error: any) {
+      console.error('Login failed:', error);
+      setError('Login failed. Please try again.');
+    }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -32,34 +66,40 @@ export default function Login() {
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">Sign in to your workspace</p>
           </div>
 
+          {/* Error Message Display */}
+          {error && (
+            <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-md">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
-                <Input type="email" placeholder="Email address" className="pl-10" required defaultValue="jane@research.ai" />
+                <Input type="email" placeholder="Email address" className="pl-10" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading}/>
               </div>
             </div>
             <div className="space-y-2">
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-400" />
-                <Input type="password" placeholder="Password" className="pl-10" required defaultValue="password" />
+                <Input type="password" placeholder="Password" className="pl-10" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={isLoading} />
               </div>
             </div>
             
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-              Login to Workspace
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={isLoading}>
+              {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {isLoading ? 'Signing in...' : 'Login to Workspace'}
             </Button>
-            
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center"><span className="w-full border-t dark:border-zinc-800" /></div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-zinc-900 px-2 text-zinc-500">Or continue with</span>
-              </div>
-            </div>
 
-            <Button variant="outline" type="button" className="w-full">
-              Google
-            </Button>
+            <div className="text-center mt-4">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Do not have an account?{' '}
+                <Link to="/signup" className="text-blue-600 hover:underline font-medium">
+                  Sign up
+                </Link>
+              </p>
+            </div>
           </form>
         </Card>
       </motion.div>

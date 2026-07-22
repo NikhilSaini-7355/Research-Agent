@@ -4,8 +4,9 @@ import { Search, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MarkdownViewer from '../markdown/MarkdownViewer';
-import ProgressTracker from '../progress/ProgressTracker';
+import ResearchView from '../progress/ResearchView';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 export default function MainWorkspace() {
   const { activeSessionId, sessions, startNewResearch } = useStore();
@@ -13,10 +14,16 @@ export default function MainWorkspace() {
 
   const activeSession = sessions.find(s => s.id === activeSessionId);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      startNewResearch(query, 'Advanced', 'Academic');
+      const response = await axios.post('http://localhost:8000/api/v1/research/', { topic: query }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+        }
+      });
+      const { project_id, job_id } = response.data;
+      startNewResearch(query, project_id, job_id);
       setQuery('');
     }
   };
@@ -54,12 +61,21 @@ export default function MainWorkspace() {
     );
   }
 
+
+
+  // jobId={"9a1eea58-da99-4dcb-9057-fef911d231eb"}
   // State 2: Generating
   if (activeSession.status === 'generating') {
     return (
       <div className="flex-1 flex flex-col p-8 overflow-hidden">
-        <h2 className="text-2xl font-bold mb-8">{activeSession.title}</h2>
-        <ProgressTracker currentStage={activeSession.progressStage || 0} />
+        <h2 className="text-2xl font-bold mb-8">{activeSession.query}</h2>
+        <ResearchView 
+        jobId={activeSession.job_id}
+        onComplete={(finalContent) => {
+          // Call your store action to update activeSession to completed status
+          useStore.getState().completeResearch?.(activeSessionId, finalContent);
+        }} 
+      />
       </div>
     );
   }
@@ -68,7 +84,7 @@ export default function MainWorkspace() {
   return (
     <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950">
       <div className="h-14 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md sticky top-0 z-10">
-        <h2 className="font-semibold truncate pr-4">{activeSession.title}</h2>
+        <h2 className="font-semibold truncate pr-4">{activeSession.query}</h2>
         <div className="flex gap-2">
           <Button variant="outline" size="sm">Export PDF</Button>
           <Button variant="outline" size="sm">Share</Button>

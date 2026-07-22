@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class ResearchResponse(BaseModel):
     job_id: str
     status: str
+    project_id: str
 
 
 class JobStatusResponse(BaseModel):

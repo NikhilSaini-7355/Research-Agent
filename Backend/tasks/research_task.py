@@ -38,8 +38,8 @@ async def run_research_job(
 
         research_service.save_result(
             job_id=job_id,
-            markdown=final_state["final_markdown"],
-            pdf_path=""
+            markdown=final_state["final_markdown"],  # have to clarify this thing
+            pdf_path="" # have to clarify this thing
         )
 
     except Exception as e:
@@ -52,3 +52,7 @@ async def run_research_job(
     finally:
 
         db.close()
+
+
+# hardcoded completed job id
+# need to clarify markdown and pdf_path attributes of job object of ResearchJob

@@ -84,3 +84,11 @@ class ResearchService:
         self.db.refresh(job)
 
         return job
+
+    def get_job_by_project_id(self, project_id:str):
+        return (
+            self.db.query(ResearchJob)
+            .filter(ResearchJob.project_id == str(project_id))
+            .first()
+        )
+

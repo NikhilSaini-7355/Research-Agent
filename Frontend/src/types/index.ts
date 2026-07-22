@@ -10,7 +10,9 @@ export interface ResearchStats {
 
 export interface ResearchSession {
   id: string;
-  title: string;
+  query: string;
+  job_id: string;
+  user_id?: string;
   date: string;
   status: ResearchStatus;
   content: string;

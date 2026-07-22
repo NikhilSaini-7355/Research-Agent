@@ -43,7 +43,7 @@ export default function Sidebar() {
               )}
             >
               <FileText className="h-4 w-4 shrink-0" />
-              <span className="truncate">{session.title}</span>
+              <span className="truncate">{session.query}</span>
             </button>
           ))}
         </div>

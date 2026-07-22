@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2, Circle, Loader2 } from 'lucide-react';
-
+ 
 const STAGES = [
   "Topic Analysis",
   "Persona Generation",
@@ -8,11 +8,9 @@ const STAGES = [
   "Parallel Web Search",
   "Content Extraction",
   "Embedding Generation",
-  "Vector Database Indexing",
   "Research Synthesis",
   "Outline Generation",
   "Section Writing",
-  "Fact Checking & Citations",
   "Formatting Output"
 ];
 

@@ -320,3 +320,19 @@ async def writer_node(state: WorkflowState) -> WorkflowState:
     return {
         "final_markdown": final_markdown
     }
+
+
+def research_completed_node(state: WorkflowState) -> WorkflowState:
+    try:
+        progress_service = state["services"]["progress"]
+
+        progress_service.update_progress(
+            job_id=state["job_id"],
+            progress=100,
+            status="Research Completed."
+        )
+    except Exception as e:
+        logging.error(f"An error occurred while marking research as completed: {str(e)}")
+        raise CustomException(e, sys)
+
+    return {}

@@ -4,6 +4,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 llm = ChatGroq(
-    model="meta-llama/llama-4-scout-17b-16e-instruct",
+    model="llama-3.3-70b-versatile",
     temperature=0,
 )

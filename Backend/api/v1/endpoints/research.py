@@ -13,7 +13,6 @@ from backend.tasks.research_task import run_research_job
 from backend.core.dependencies import get_current_user
 router = APIRouter()
 
-
 @router.post("/",response_model=ResearchResponse)
 async def create_research_job(
     request: ResearchRequest,
@@ -32,7 +31,7 @@ async def create_research_job(
 
 
     job = service.create_job(topic=request.topic,user_id=current_user.id,project_id=project.id)
-    print("Job Project ID:", job.project_id)
+    print("Job ID:", job.job_id)
     asyncio.create_task(
         run_research_job(
             job.job_id
@@ -41,6 +40,7 @@ async def create_research_job(
 
     return ResearchResponse(
         job_id=job.job_id,
+        project_id=str(project.id),
         status=job.status
     )
 
@@ -80,6 +80,10 @@ async def get_research_result(
             detail="Research job not found."
         )
 
+    async with AsyncSessionLocal() as neon_db:
+        project_service = ProjectService(db=neon_db)
+        final_content = await project_service.get_project_result(project_id=job.project_id)
+    
     return {
-        "project_id": job.project_id
+        "final_markdown": final_content
     }
