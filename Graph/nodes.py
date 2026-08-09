@@ -294,7 +294,7 @@ async def writer_node(state: WorkflowState) -> WorkflowState:
             retrieved = chroma_service.retrieve_by_query(
                 retrieval_query,
                 project_id,
-                5
+                3
             )
             context = get_context(retrieved)
             section_result = writer.write_section(

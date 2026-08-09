@@ -10,6 +10,7 @@ from Schemas.all_db_schemas import ArticleCreate
 from backend.database.crud_agents import crud_article
 from backend.database.database_session import AsyncSessionLocal
 import uuid
+import time
 
 load_dotenv()
 
@@ -35,8 +36,8 @@ class WriterAgent:
             context=context,
             format_instructions=self.parser.get_format_instructions()
         )
-
-        response = self.llm.invoke(prompt)
+        
+        response = self.llm.invoke(prompt)  #I want to ensure that this line runs after 10 seconds synchronously
 
         return self.parser.parse(response.content)
 

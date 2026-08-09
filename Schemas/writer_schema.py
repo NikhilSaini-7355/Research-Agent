@@ -8,4 +8,4 @@ class SectionSchema(BaseModel):
 
     content: str = Field(
         description="Technical content of the section"
-    )
+    ) 

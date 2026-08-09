@@ -8,6 +8,7 @@ from backend.core.context import current_project_id_var
 from src.exception import CustomException
 from src.logger import logging
 from backend.database.chroma_service import chroma_service
+import time
 
 
 def get_clean_results(results_dict):
@@ -31,7 +32,13 @@ def get_clean_results(results_dict):
     
     return res
 
+from langchain_core.output_parsers import PydanticOutputParser
+
 class SynthesizerAgent:
+    def __init__(self):
+        self.parser = PydanticOutputParser(
+            pydantic_object=SynthesizedResearch
+        )
 
     def synthesize_chunks(
         self,
@@ -41,18 +48,13 @@ class SynthesizerAgent:
 
         prompt = generate_synthesizer_prompt(
             topic=topic,
-            retrieved_data=retrieved_data
+            retrieved_data=retrieved_data,
+            format_instructions=self.parser.get_format_instructions()
         )
 
-        structured_llm = llm.with_structured_output(
-            SynthesizedResearch
-        )
-
-        result = structured_llm.invoke(
-            prompt
-        )
-
-        return result
+        response = llm.invoke(prompt)
+        
+        return self.parser.parse(response.content)
     def synthesize_research_summary(self, query: str, topic: str, project_id:str):
         result = chroma_service.retrieve_by_query(query, project_id, 5)
         final_res = get_clean_results(result)

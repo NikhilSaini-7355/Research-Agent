@@ -18,11 +18,13 @@ synthesizer_prompt = ChatPromptTemplate.from_messages([
     Advantages
     - Handles multivariable systems
     - Explicit constraint handling
+    
+    {format_instructions}
     """),
     ("human", "Research Topic: {topic}\n\nRetrieved Chunks:\n{raw_chunks}")
 ])
 
-def generate_synthesizer_prompt(topic: str, retrieved_data: list):
+def generate_synthesizer_prompt(topic: str, retrieved_data: list, format_instructions: str):
     formatted_chunks = ""
     for item in retrieved_data:
         formatted_chunks += f"[ID: {item['id']}]\nText: {item['text']}\n\n"
@@ -32,6 +34,7 @@ def generate_synthesizer_prompt(topic: str, retrieved_data: list):
     return synthesizer_prompt.invoke(
         {
             "topic": topic,
-            "raw_chunks": formatted_chunks
+            "raw_chunks": formatted_chunks,
+            "format_instructions": format_instructions
         }
     )
